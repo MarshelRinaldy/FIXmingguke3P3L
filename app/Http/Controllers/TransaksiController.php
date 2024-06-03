@@ -208,12 +208,21 @@ public function pesanan_siap_dikirim_dipickup($id)
     return redirect()->route('show_pesanan_diproses');
 }
 
-
-
-public function pesanan_sudah_diterima(){
+public function show_pesanan_siap_diterima(){
 
     $transaksis = Transaksi::where('status_transaksi', 'sudah dikonfirmasi')->get();
-    return view('admin.showPesananSudahDiterima');
+
+     return view('admin.showPesananSudahDiterima', compact('transaksis'));
+}
+
+public function pesanan_sudah_diterima($id){
+
+    $transaksi = Transaksi::findOrFail($id);
+
+    $transaksi->status_transaksi = 'sudah dipickup';
+    $transaksi->save();
+
+    return redirect()->route('show_pesanan_siap_diterima')->with('success', 'Berhasil Konfirmasi Penerimaan Pesanan Tersebut');
 }
 
     

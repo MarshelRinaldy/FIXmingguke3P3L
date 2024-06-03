@@ -51,6 +51,9 @@
             padding: 10px;
             border-bottom: 1px solid #ddd;
             border-radius: 10px;
+
+            padding-left: 20px;
+            padding-right: 20px;
         }
 
         .navbar a {
@@ -628,7 +631,7 @@
         </div>
 
 
-        <div id="sudah dipickup" class="tab-content">
+        <div id="dipickup" class="tab-content">
             <h1 class="card-title text-center mb-5 mt-2">Sudah selesai dikirim atau dipickup</h1>
             @foreach ($transaksis as $transaksi)
                 @if ($transaksi->status_transaksi == 'sudah dipickup')

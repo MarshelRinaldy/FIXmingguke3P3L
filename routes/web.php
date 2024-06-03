@@ -145,8 +145,11 @@ Route::get('/show_konfirmasi_pesanan', [TransaksiController::class, 'show_konfir
 Route::get('/detailKonfirmasiPesanan/{id}', [TransaksiController::class, 'detail_konfirmasi_pesanan'])->name('detail_konfirmasi_pesanan');
 Route::get('/show_pesanan_diproses', [TransaksiController::class, 'show_pesanan_diproses'])->name('show_pesanan_diproses');
 Route::get('/show_pesanan_telat_bayar', [TransaksiController::class, 'show_pesanan_telat_bayar'])->name('show_pesanan_telat_bayar');
+Route::get('/show_pesanan_siap_diterima', [TransaksiController::class, 'show_pesanan_siap_diterima'])->name('show_pesanan_siap_diterima');
 Route::patch('/pesanan_siap_dikirim_dipickup/{id}', [TransaksiController::class, 'pesanan_siap_dikirim_dipickup'])->name('pesanan_siap_dikirim_dipickup');
 Route::patch('batalkan_pesanan_telat_bayar/{id}', [TransaksiController::class, 'batalkan_pesanan_telat_bayar'])->name('batalkan_pesanan_telat_bayar');
+Route::patch('/pesanan_sudah_diterima/{id}', [TransaksiController::class, 'pesanan_sudah_diterima'])->name('pesanan_sudah_diterima');
+
 //INI UNTUK ADMIN UNTUK KONFIRMASI PESANAN DAN MENGINPUTKAN JUMLAH INCOME PERUSAHAAN
 Route::post('/store_pemasukan_perusahaan', [PemasukanPerusahaanController::class, 'store_pemasukan_perusahaan'])->name('store_pemasukan_perusahaan');
 

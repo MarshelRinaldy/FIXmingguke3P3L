@@ -258,7 +258,7 @@
                         </li>
 
                         <li class="sidebar-item">
-                            <a href="" class="sidebar-link">Pesanan Sudah
+                            <a href="{{ route('show_pesanan_siap_diterima') }}" class="sidebar-link">Pesanan Siap
                                 Diterima</a>
                         </li>
 

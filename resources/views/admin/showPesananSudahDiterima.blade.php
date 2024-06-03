@@ -96,8 +96,8 @@
         <main>
             <div class="row" style="margin-left: 80px; margin-top: 80px">
                 <div class="col-6 title">
-                    <h1 style="font-weight: 800">Pengiriman</h1>
-                    <p style="font-size: 25px; font-weight: 200;">Hi Admin, Welcome in Dashboard!</p>
+                    <h1 style="font-weight: 800">Daftar Pesanan</h1>
+                    <p style="font-size: 25px; font-weight: 200;">Pesanan yang Sedang diantar atau akan dipick up</p>
 
                 </div>
                 <div class="col-6">
@@ -133,29 +133,35 @@
                     <th>NO</th>
                     <th>PEMBELI</th>
                     <th>NO TRANSAKSI</th>
-                    <th>BIAYA ONGKIR</th>
-                    <th>JARAK</th>
+                    <th>NO HANDPHONE</th>
                     <th>ALAMAT PENGANTARAN</th>
-                    <th>STATUS</th>
                     <th>ACTION</th>
                 </tr>
 
-                @foreach ($transaksis as $transaksi)
+                @foreach ($transaksis as $index => $transaksi)
                     <tr style="height: 60px;">
-                        <td>1</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $transaksi->user->name }}</td>
                         <td>{{ $transaksi->no_transaksi }}</td>
-                        <td>{{ $transaksi->biaya_ongkir }}</td>
-                        <td>{{ $transaksi->jarak_delivery }}</td>
-                        <td>{{ $transaksi->alamat_pengantaran }}</td>
-                        <td style="color: #f91313">{{ $transaksi->status_transaksi }}</td>
+                        <td>{{ $transaksi->user->phone_number }}</td>
                         <td>
-                            <form action="{{ route('update_pengiriman', $transaksi->id) }}" method="get">
-                                <button type="submit" class="btn-search">Update</button>
+                            @if ($transaksi->status_pengantaran == 'ambil_sendiri')
+                                <span style="color: #28a745;">pesanan diambil ditempat</span>
+                            @else
+                                {{ $transaksi->alamat_pengantaran }}
+                            @endif
+                        </td>
+
+                        <td>
+                            <form action="{{ route('pesanan_sudah_diterima', $transaksi->id) }}" method="POST">
+                                @method('patch')
+                                @csrf
+                                <button type="submit" class="btn-search">Sudah Diterima</button>
                             </form>
                         </td>
                     </tr>
                 @endforeach
+
             </table>
 
             <div class="icon-table">

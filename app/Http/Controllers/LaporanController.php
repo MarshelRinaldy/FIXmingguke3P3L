@@ -10,9 +10,19 @@ use App\Models\PemasukanPerusahaan;
 
 class LaporanController extends Controller
 {
-    public function show_laporan_penjualan_keseluruhan() {
-    $transaksiPerBulan = PemasukanPerusahaan::selectRaw('MONTH(tanggal_income) as bulan, COUNT(*) as jumlah_transaksi, SUM(jumlah_income + tip_lebihan) as jumlah_uang, SUM(tip_lebihan) as total_tip')
-        ->groupByRaw('MONTH(tanggal_income)')
+    public function show_laporan_penjualan_keseluruhan(Request $request) {
+    // Get the start and end dates from the request
+    $startDate = $request->input('start_date');
+    $endDate = $request->input('end_date');
+
+    // Query the data with optional date range filtering
+    $query = PemasukanPerusahaan::selectRaw('MONTH(tanggal_income) as bulan, COUNT(*) as jumlah_transaksi, SUM(jumlah_income + tip_lebihan) as jumlah_uang, SUM(tip_lebihan) as total_tip');
+
+    if ($startDate && $endDate) {
+        $query->whereBetween('tanggal_income', [$startDate, $endDate]);
+    }
+
+    $transaksiPerBulan = $query->groupByRaw('MONTH(tanggal_income)')
         ->orderByRaw('MONTH(tanggal_income)')
         ->get()
         ->keyBy('bulan');
@@ -26,8 +36,21 @@ class LaporanController extends Controller
         }
     }
 
-    return view('ownerandmo.penjualanBulananKeseluruhanLaporan', compact('data'));
+    // Get the logged-in user
+    $user = auth()->user();
+
+    // Check the user's role and return the appropriate view
+    if ($user->role === 'owner') {
+        return view('ownerandmo.penjualanBulananKeseluruhanLaporan', compact('data', 'startDate', 'endDate'));
+    } elseif ($user->role === 'mo') {
+        return view('MO.laporan.penjualanBulananKeseluruhanLaporan', compact('data', 'startDate', 'endDate'));
+    }
+
+    // Optionally, handle other roles or unauthorized access
+    abort(403, 'Unauthorized action.');
 }
+
+
 
 
 public function show_chart_penjualan_bulanan() {
@@ -66,8 +89,20 @@ public function show_laporan_penggunaan_bahanbaku(Request $request)
         ->groupBy('bahan_baku_id')
         ->get();
 
-    return view('ownerandmo.penggunaanBahanbakuLaporan', compact('usageData', 'startDate', 'endDate'));
+    // Get the logged-in user
+    $user = auth()->user();
+
+    // Check the user's role and return the appropriate view
+    if ($user->role === 'owner') {
+        return view('ownerandmo.penggunaanBahanbakuLaporan', compact('usageData', 'startDate', 'endDate'));
+    } elseif ($user->role === 'mo') {
+        return view('MO.laporan.penggunaanBahanbakuLaporan', compact('usageData', 'startDate', 'endDate'));
+    }
+
+    // Optionally, handle other roles or unauthorized access
+    abort(403, 'Unauthorized action.');
 }
+
 
 
 
