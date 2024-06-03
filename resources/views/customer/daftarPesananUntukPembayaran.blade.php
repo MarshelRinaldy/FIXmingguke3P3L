@@ -234,7 +234,8 @@
             <a href="#" class="tab-link" data-tab="konfirmasi-pembayaran">Diproses</a>
             <a href="#" class="tab-link" data-tab="pembuatan-po">Proses Pembuatan PO</a>
             <a href="#" class="tab-link" data-tab="diproses">Sedang Dikemas</a>
-            <a href="#" class="tab-link" data-tab="dikirim">Dikirim/Dipickup</a>
+            <a href="#" class="tab-link" data-tab="sudah siap">Sudah Siap</a>
+            <a href="#" class="tab-link" data-tab="dipickup">Sudah Dikirim/Dipickup</a>
             <a href="#" class="tab-link" data-tab="selesai">Selesai</a>
             <a href="#" class="tab-link" data-tab="dibatalkan">Dibatalkan</a>
         </div>
@@ -558,11 +559,79 @@
             @endforeach
         </div> --}}
 
-
-        <div id="dikirim" class="tab-content">
-            <h1 class="card-title text-center mb-5 mt-2">Produk yang sedang dikirim / Sudah bisa di pickup</h1>
+        <div id="sudah siap" class="tab-content">
+            <h1 class="card-title text-center mb-5 mt-2">Produk siap dikirim atau di pick up</h1>
             @foreach ($transaksis as $transaksi)
                 @if ($transaksi->status_transaksi == 'sudah dikonfirmasi')
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="transaksi">
+                                <h5 class="card-title ml-5">No Transaksi : {{ $transaksi->no_transaksi }}</h5>
+                                <hr>
+                                <div class="row mr-5">
+                                    @foreach ($transaksi->detailTransaksis as $detail)
+                                        <div class="col-10 mb-5">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    @if ($detail->is_hampers)
+                                                        <img src="{{ asset('../storage/hampers/' . $detail->hampers->image) }}"
+                                                            alt="{{ $detail->produk->nama }}" class="img-fluid ml-5"
+                                                            width="150px;">
+                                                    @else
+                                                        <img src="{{ asset('../storage/dukpro/' . $detail->produk->image) }}"
+                                                            alt="{{ $detail->produk->nama }}" class="img-fluid ml-5"
+                                                            width="150px;">
+                                                    @endif
+
+                                                </div>
+                                                <div class="col-6">
+                                                    @if ($detail->is_hampers)
+                                                        <h2>{{ $detail->hampers->nama }}</h2>
+                                                    @else
+                                                        <h2>{{ $detail->produk->nama }}</h2>
+                                                    @endif
+
+                                                    @if ($detail->is_hampers)
+                                                        <h5>{{ truncateDescription($detail->hampers->deskripsi) }}</h5>
+                                                    @else
+                                                        <h5>{{ truncateDescription($detail->produk->deskripsi) }}</h5>
+                                                    @endif
+
+                                                    <p>Quantity : {{ $detail->jumlah_produk }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 mt-5 d-flex justify-content-end">
+                                            @if ($detail->is_hampers)
+                                                <p style="font-size: 20px; font-weight: 600;">Rp.
+                                                    {{ $detail->hampers->harga }},00</p>
+                                            @else
+                                                <p style="font-size: 20px; font-weight: 600;">Rp.
+                                                    {{ $detail->produk->harga }},00</p>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-9"></div>
+                                    <div class="col-3">
+                                        <h5>Biaya Ongkir : {{ $transaksi->biaya_ongkir }}</h5>
+                                        <h4 style="font-weight: 600">Total : {{ $transaksi->total_harga }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            @endforeach
+        </div>
+
+
+        <div id="sudah dipickup" class="tab-content">
+            <h1 class="card-title text-center mb-5 mt-2">Sudah selesai dikirim atau dipickup</h1>
+            @foreach ($transaksis as $transaksi)
+                @if ($transaksi->status_transaksi == 'sudah dipickup')
                     <div class="row">
                         <div class="col-12">
                             <div class="transaksi">
@@ -818,7 +887,8 @@
                                                     @endif
 
                                                     @if ($detail->is_hampers)
-                                                        <h5>{{ truncateDescription($detail->hampers->deskripsi) }}</h5>
+                                                        <h5>{{ truncateDescription($detail->hampers->deskripsi) }}
+                                                        </h5>
                                                     @else
                                                         <h5>{{ truncateDescription($detail->produk->deskripsi) }}</h5>
                                                     @endif

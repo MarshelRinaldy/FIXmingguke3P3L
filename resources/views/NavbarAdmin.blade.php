@@ -258,6 +258,11 @@
                         </li>
 
                         <li class="sidebar-item">
+                            <a href="" class="sidebar-link">Pesanan Sudah
+                                Diterima</a>
+                        </li>
+
+                        <li class="sidebar-item">
                             <a href="{{ route('show_pesanan_telat_bayar') }}" class="sidebar-link">Pesanan Telat
                                 Pembayaran</a>
                         </li>
