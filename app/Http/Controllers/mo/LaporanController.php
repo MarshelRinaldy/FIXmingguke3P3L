@@ -79,6 +79,17 @@ class LaporanController extends Controller
     {
         $tanggalSekarang = now()->format('Y-m-d');
         $bahanBakus = BahanBaku::all();
+        $pengeluaranLain = PencatatanPengeluaranLain::where('tanggal_pengeluaran', $tanggalSekarang)->get();
+
+        // Filter bahan baku selain listrik dan air
+        $bahanBakusLain = $bahanBakus->filter(function ($bahanBaku) {
+            return !in_array($bahanBaku->nama_bahan_baku, ['Listrik', 'Air']);
+        });
+
+        // Menghitung total harga bahan baku
+        $totalHargaBahanBaku = $bahanBakusLain->sum(function ($bahanBaku) {
+            return $bahanBaku->harga_bahan_baku * $bahanBaku->stok_bahan_baku;
+        });
 
         // Periksa apakah entri untuk pembelian bahan baku sudah ada untuk tanggal hari ini
         $existingPembelian = PencatatanPengeluaranLain::where('nama_pengeluaran', 'Pembelian Bahan Baku')
@@ -87,15 +98,9 @@ class LaporanController extends Controller
 
         // Jika belum ada entri, maka buat entri baru
         if (!$existingPembelian) {
-
-            $totalHargaBahanBaku = 0;
-            foreach ($bahanBakus as $bahanBaku) {
-                $totalHargaBahanBaku += $bahanBaku->harga_bahan_baku * $bahanBaku->stok_bahan_baku;
-            }
-
             $pengeluaranBahanBaku = new PencatatanPengeluaranLain();
             $pengeluaranBahanBaku->nama_pengeluaran = "Pembelian Bahan Baku";
-            $pengeluaranBahanBaku->harga_pengeluaran = $bahanBakus->sum('harga_bahan_baku');
+            $pengeluaranBahanBaku->harga_pengeluaran = $totalHargaBahanBaku;
             $pengeluaranBahanBaku->tanggal_pengeluaran = $tanggalSekarang;
             $pengeluaranBahanBaku->kategori_pengeluaran = "Pembelian";
             $pengeluaranBahanBaku->save();
@@ -103,7 +108,6 @@ class LaporanController extends Controller
 
         // Ambil data pengeluaran lain dan bahan baku
         $datas = PencatatanPengeluaranLain::whereMonth('created_at', date('m'))->get();
-        $bahanBakus = BahanBaku::all();
 
         return view('mo.laporan.pengeluaran', compact('datas', 'bahanBakus'));
     }

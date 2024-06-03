@@ -63,23 +63,25 @@
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $data->tanggal_pengeluaran }}</td>
                                         <td>{{ $data->nama_pengeluaran }}</td>
-                                        <td>{{ $data->harga_pengeluaran }}</td>
+                                        {{-- <td>{{ $data->harga_pengeluaran }}</td> --}}
+                                        <td>-</td>
                                         <td>{{ $data->kategori_pengeluaran }}</td>
                                         <td>{{ $data->harga_pengeluaran }}</td>
                                         <td>-</td>
                                     </tr>
                                 @endforeach
-                                {{-- @foreach ($bahanBakus as $bahanBaku)
+                                @foreach ($bahanBakus as $bahanBaku)
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>{{ date('Y-m-d') }}</td>
                                         <td>{{ $bahanBaku->nama_bahan_baku }}</td>
                                         <td>{{ $bahanBaku->stok_bahan_baku }}</td>
                                         <td>{{ $bahanBaku->satuan_bahan_baku }}</td>
-                                        <td>{{ $bahanBaku->harga_bahan_baku }}</td>
+                                        <td>{{ number_format($bahanBaku->harga_bahan_baku * $bahanBaku->stok_bahan_baku, 0, ',', '.') }}
+                                        </td>
                                         <td>{{ $bahanBaku->total_digunakan }}</td>
                                     </tr>
-                                @endforeach --}}
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -88,12 +90,13 @@
                                         {{ number_format($datas->sum('harga_pengeluaran'), 0, ',', '.') }}</th>
                                     <th></th>
                                 </tr>
-                                {{-- <tr>
+                                <tr>
                                     <th colspan="5" style="text-align:right">Total Harga Bahan Baku:</th>
                                     <th id="total-bahan-baku">Rp.
-                                        {{ number_format($bahanBakus->sum('harga_bahan_baku'), 0, ',', '.') }}</th>
+                                        {{ number_format($bahanBakus->sum(function ($bahanBaku) {return $bahanBaku->harga_bahan_baku * $bahanBaku->stok_bahan_baku;}),0,',','.') }}
+                                    </th>
                                     <th></th>
-                                </tr> --}}
+                                </tr>
                             </tfoot>
                         </table>
                     </div>
