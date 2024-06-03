@@ -313,6 +313,12 @@
                     </a>
                 </li>
 
+                <li class="sidebar-item">
+                    <a href="{{ route('promopoint.index') }}" class="sidebar-link">
+                        <i class="lni lni-agenda"></i>
+                        <span>Konfirmasi Transfer Saldo</span>
+                    </a>
+                </li>
 
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">

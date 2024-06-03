@@ -109,6 +109,12 @@ Route::get('/tambahPenitip', function () {
     return view('MO.tambahPenitip');
 });
 
+Route::get('/transferSaldo', function () {
+    return view('admin.pengajuanTarikSaldo');
+});
+// Route::get('/transferSaldo', 'index')->name('promopoint.index');
+
+
 Route::get('/editPenitip', function () {
     return view('MO.editPenitip');
 });
