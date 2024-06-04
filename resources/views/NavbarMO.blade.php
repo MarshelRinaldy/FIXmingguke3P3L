@@ -277,17 +277,31 @@
 
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#transaksi" aria-expanded="false" aria-controls="transaksi">
+                        data-bs-target="#laporan" aria-expanded="false" aria-controls="transaksi">
                         <i class="lni lni-agenda"></i>
                         <span>Laporan</span>
                     </a>
-                    <ul id="transaksi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <ul id="laporan" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
                             <a href="{{ route('mo.laporan.pemasukan') }}" class="sidebar-link">Laporan Pemasukan</a>
                         </li>
                         <li class="sidebar-item">
                             <a href="{{ route('mo.laporan.pengeluaran') }}" class="sidebar-link">Laporan
                                 Pengeluaran</a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{{ route('show_laporan_penjualan_keseluruhan') }}" class="sidebar-link">
+
+                                <span>Laporan Penjualan Keseluruhan</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{{ route('show_laporan_penggunaan_bahanbaku') }}" class="sidebar-link">
+
+                                <span>Laporan Penggunaan BahanBaku</span>
+                            </a>
                         </li>
                         <li class="sidebar-item">
                             <a href="{{ route('mo.laporan.penjualan') }}" class="sidebar-link">Penjualan Bulanan</a>
@@ -380,19 +394,7 @@
                 </li>
 
 
-                <li class="sidebar-item">
-                    <a href="{{ route('show_laporan_penjualan_keseluruhan') }}" class="sidebar-link">
-                        <i class="lni lni-agenda"></i>
-                        <span>Laporan Penjualan Keseluruhan</span>
-                    </a>
-                </li>
 
-                <li class="sidebar-item">
-                    <a href="{{ route('show_laporan_penggunaan_bahanbaku') }}" class="sidebar-link">
-                        <i class="lni lni-agenda"></i>
-                        <span>Laporan Penggunaan BahanBaku</span>
-                    </a>
-                </li>
 
 
                 {{-- <li class="sidebar-item">

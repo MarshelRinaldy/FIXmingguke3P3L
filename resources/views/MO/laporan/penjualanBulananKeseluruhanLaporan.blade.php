@@ -1,4 +1,4 @@
-@extends('NavbarOwner')
+@extends('NavbarMO')
 
 @section('content')
     <style>

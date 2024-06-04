@@ -1,6 +1,4 @@
-@extends('NavbarOwner')
-
-
+@extends('NavbarAdmin')
 @section('content')
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
@@ -62,19 +60,16 @@
             border-radius: 10px;
         }
 
-        .btn-search,
-        .btn-display,
-        .btn-print {
+        .btn-search {
             background-color: #FFBE98;
             padding: 5px 15px;
             border-radius: 10px;
-            margin-left: 10px;
         }
 
-        .btn-search:hover,
-        .btn-display:hover,
-        .btn-print:hover {
+        .btn-search:hover {
             background-color: #000000;
+            padding: 5px 15px;
+            border-radius: 10px;
             color: white;
         }
 
@@ -84,36 +79,32 @@
             margin-bottom: 40px;
             margin-top: 10px;
         }
-
-        .btn-container {
-            display: flex;
-            justify-content: flex-start;
-            margin-left: 80px;
-            margin-top: 20px;
-            max-width: 350px;
-            gap: 20px;
-        }
     </style>
 
     <body>
         @if (session('success'))
-            <div class="alert alert-success" role="alert">{{ session('success') }}</div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
         @endif
 
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
         <main>
             <div class="row" style="margin-left: 80px; margin-top: 80px">
                 <div class="col-6 title">
-                    <h1 style="font-weight: 800">Laporan Penggunaan Bahan Baku</h1>
-                    <p style="font-size: 25px; font-weight: 200;">Hi Owner or MO, Welcome in Dashboard!</p>
+                    <h1 style="font-weight: 800">Daftar Pesanan</h1>
+                    <p style="font-size: 25px; font-weight: 200;">Pesanan yang Sedang diantar atau akan dipick up</p>
+
                 </div>
                 <div class="col-6">
                     <div class="profile">
                         <img src="image/pictureProfile.png" alt="" width="80px">
                         <p style="padding-top: 10px">Admin</p>
-                        <div class="dropdown" id="dropdownMenu" style="border-radius: 10px;">
+                        <div class="dropdown" id="dropdownMenu" style="border-radius: 10px;;">
                             <button onclick="toggleDropdown()">Profile</button>
                             <button onclick="logout()">Logout</button>
                         </div>
@@ -125,18 +116,7 @@
 
             <div class="row" style="margin-left: 80px; margin-top: 40px;">
                 <div class="col-6">
-                    <div>
-                        <h3>Periode Tanggal <span id="startDateDisplay">{{ $startDate ?? '.....' }}</span> s/d <span
-                                id="endDateDisplay">{{ $endDate ?? '.....' }}</span></h3>
-                    </div>
-                    <form action="" method="GET" style="display: flex; align-items: center;">
-                        <input type="date" id="startDate" name="start_date"
-                            style="border-radius: 22px; padding-left: 10px; margin-right: 10px;"
-                            value="{{ $startDate }}">
-                        <input type="date" id="endDate" name="end_date"
-                            style="border-radius: 22px; padding-left: 10px;" value="{{ $endDate }}">
-                        <button type="submit" class="btn-display">Tampilkan</button>
-                    </form>
+
                 </div>
                 <div class="col-6">
                     <div style="justify-content: flex-end; display: flex; margin-right: 10%;">
@@ -150,18 +130,38 @@
 
             <table>
                 <tr style="background-color: #E2BFB3; height: 80px;">
-                    <th>Nama Bahan</th>
-                    <th>Satuan</th>
-                    <th>Jumlah Penggunaan</th>
+                    <th>NO</th>
+                    <th>PEMBELI</th>
+                    <th>NO TRANSAKSI</th>
+                    <th>NO HANDPHONE</th>
+                    <th>ALAMAT PENGANTARAN</th>
+                    <th>ACTION</th>
                 </tr>
 
-                @foreach ($usageData as $usage)
+                @foreach ($transaksis as $index => $transaksi)
                     <tr style="height: 60px;">
-                        <td>{{ $usage->bahanBaku->nama_bahan_baku }}</td>
-                        <td>{{ $usage->bahanBaku->satuan_bahan_baku }}</td>
-                        <td>{{ $usage->total_penggunaan }}</td>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $transaksi->user->name }}</td>
+                        <td>{{ $transaksi->no_transaksi }}</td>
+                        <td>{{ $transaksi->user->phone_number }}</td>
+                        <td>
+                            @if ($transaksi->status_pengantaran == 'ambil_sendiri')
+                                <span style="color: #28a745;">pesanan diambil ditempat</span>
+                            @else
+                                {{ $transaksi->alamat_pengantaran }}
+                            @endif
+                        </td>
+
+                        <td>
+                            <form action="{{ route('pesanan_sudah_diterima', $transaksi->id) }}" method="POST">
+                                @method('patch')
+                                @csrf
+                                <button type="submit" class="btn-search">Sudah Diterima</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
+
             </table>
 
             <div class="icon-table">
@@ -183,14 +183,7 @@
             function logout() {
                 alert('Logout clicked');
             }
-
-            document.getElementById('startDate').addEventListener('change', function() {
-                document.getElementById('startDateDisplay').textContent = this.value;
-            });
-
-            document.getElementById('endDate').addEventListener('change', function() {
-                document.getElementById('endDateDisplay').textContent = this.value;
-            });
         </script>
+
     </body>
 @endsection

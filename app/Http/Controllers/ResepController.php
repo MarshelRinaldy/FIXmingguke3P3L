@@ -180,28 +180,39 @@ class ResepController extends Controller
 }
 
 
-    public function delete_resep($produk){
+    public function delete_resep($produk)
+{
+    // Fetch the resep entries for the given product
+    $reseps = Resep::where('produk_id', $produk)->get();
 
-        Resep::where('produk_id', $produk)->delete();
-        return redirect()->route('index_resep')->with('success', 'Resep berhasil dihapus.');
+    foreach ($reseps as $resep) {
+        $bahanBakuId = $resep->bahan_baku_id;
+        $jumlah = $resep->jumlah;
 
+        $product = Dukpro::find($resep->produk_id);
+
+        if ($product && $product->status === 'Available') {
+        
+            $resep->delete();
+
+         
+            $stok = $product->stok;
+
+            $totalUsage = $jumlah * $stok;
+
+            BahanBakuUsage::where('bahan_baku_id', $bahanBakuId)->decrement('jumlah_digunakan', $totalUsage);
+
+            $bahanBaku = BahanBaku::find($bahanBakuId);
+            if ($bahanBaku) {
+                $bahanBaku->total_digunakan -= $totalUsage;
+                $bahanBaku->save();
+            }
+        }
     }
 
-    public function search_resep(Request $request)
-{
-    // Validasi input
-    $request->validate([
-        'search' => 'required',
-    ]);
-    $search = $request->input('search');
-    $reseps = Resep::whereHas('product', function($query) use ($search) {
-        $query->where('nama', 'like', '%' . $search . '%');
-    })->get();
-
-    $bahanbakus = BahanBaku::all();
-    return view('admin.resep', compact('reseps', 'bahanbakus'));
-    
+    return redirect()->route('index_resep')->with('success', 'Resep berhasil dihapus.');
 }
+
 
 
 }
