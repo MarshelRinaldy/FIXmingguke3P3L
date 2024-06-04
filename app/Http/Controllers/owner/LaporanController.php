@@ -14,16 +14,16 @@ use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
-    public function pemasukan()
-    {
-        $datas = PemasukanPerusahaan::whereMonth('created_at', date('m'))->get();
-        return view('owner.laporan.pemasukan', compact('datas'));
-    }
+    // public function pemasukan()
+    // {
+    //     $datas = PemasukanPerusahaan::whereMonth('created_at', date('m'))->get();
+    //     return view('owner.pemasukan', compact('datas'));
+    // }
 
-    public function pengeluaran()
-    {
-        $datas = PencatatanPengeluaranLain::whereMonth('created_at', date('m'))->get();
-        return view('owner.laporan.pengeluaran', compact('datas'));
-    }
+    // public function pengeluaran()
+    // {
+    //     $datas = PencatatanPengeluaranLain::whereMonth('created_at', date('m'))->get();
+    //     return view('owner.pengeluaran', compact('datas'));
+    // }
 
 }

@@ -59,20 +59,47 @@ class LaporanController extends Controller
             }
         }
 
+        $user = auth()->user();
+
+    if ($user->role === 'owner') {
+        return view('owner.penjualan', compact('transaksis', 'produkTerjual'));
+    } elseif ($user->role === 'mo') {
         return view('mo.laporan.penjualan', compact('transaksis', 'produkTerjual'));
+    }
+
+        
     }
 
     public function stok_bb()
     {
         $bahanBakus = BahanBaku::all();
 
-        return view('mo.laporan.stok_bb', compact('bahanBakus'));
+
+         $user = auth()->user();
+
+        if ($user->role === 'owner') {
+         return view('owner.stok_bb', compact('bahanBakus'));
+        } elseif ($user->role === 'mo') {
+            return view('mo.laporan.stok_bb', compact('bahanBakus'));
+        }
+
+       
     }
 
     public function pemasukan()
     {
         $datas = PemasukanPerusahaan::whereMonth('created_at', date('m'))->get();
-        return view('mo.laporan.pemasukan', compact('datas'));
+
+
+         $user = auth()->user();
+
+        if ($user->role === 'owner') {
+            return view('owner.pemasukan', compact('datas'));
+        } elseif ($user->role === 'mo') {
+            return view('mo.laporan.pemasukan', compact('datas'));
+        }
+
+        
     }
 
     public function pengeluaran()
@@ -109,6 +136,15 @@ class LaporanController extends Controller
         // Ambil data pengeluaran lain dan bahan baku
         $datas = PencatatanPengeluaranLain::whereMonth('created_at', date('m'))->get();
 
-        return view('mo.laporan.pengeluaran', compact('datas', 'bahanBakus'));
+
+         $user = auth()->user();
+
+        if ($user->role === 'owner') {
+            return view('owner.pengeluaran', compact('datas', 'bahanBakus'));
+        } elseif ($user->role === 'mo') {
+            return view('mo.laporan.pengeluaran', compact('datas', 'bahanBakus'));
+        }
+
+        
     }
 }

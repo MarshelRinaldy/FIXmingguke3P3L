@@ -1,6 +1,6 @@
-@extends('NavbarMO')
+@extends('NavbarOwner')
 @section('content')
-<style>
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
         body {
@@ -115,13 +115,14 @@
                     <p class="fw-bold mb-1">Atma Kitchen</p>
                     <p class="fs-6">Jl. Centralpark No. 10 Yogyakarta</p>
                     {{-- laporan penjualan bulanan under line --}}
-                    <p class="fs-5 fw-bold h4 mt-2 mb-1"><span style="border-bottom: 2px solid black;">Laporan Penjualan Bulanan</span></p>
+                    <p class="fs-5 fw-bold h4 mt-2 mb-1"><span style="border-bottom: 2px solid black;">Laporan Penjualan
+                            Bulanan</span></p>
                     {{-- nama bulan --}}
-                    <p class="fs-6   mb-1">Bulan : {{Date('F')}}</p>
+                    <p class="fs-6   mb-1">Bulan : {{ Date('F') }}</p>
                     {{-- tahun --}}
-                    <p class="fs-6 mb-1">Tahun : {{Date('Y')}}</p>
+                    <p class="fs-6 mb-1">Tahun : {{ Date('Y') }}</p>
                     {{-- tanggal cetak --}}
-                    <p class="fs-6">Tanggal Cetak : {{Date('d F Y')}}</p>
+                    <p class="fs-6">Tanggal Cetak : {{ Date('d F Y') }}</p>
                     {{-- table isinya produk, kuantitas, harga, jumlah uang --}}
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
@@ -141,9 +142,9 @@
                                 </tr>
                             @endif
                             @foreach ($produkTerjual as $produkId => $totalTerjual)
-                            <?php
-                            $produk = \App\Models\Dukpro::find($produkId);
-                            ?>
+                                <?php
+                                $produk = \App\Models\Dukpro::find($produkId);
+                                ?>
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $produk->nama }}</td>

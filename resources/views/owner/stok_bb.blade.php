@@ -1,4 +1,4 @@
-@extends('NavbarMO')
+@extends('NavbarOwner')
 @section('content')
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
@@ -107,6 +107,7 @@
             margin-top: 10px;
         }
     </style>
+
     <body>
         <main class="p-4">
             <div class="card shadow" style="margin-top:50px">
@@ -114,9 +115,10 @@
                     <p class="fw-bold mb-1">Atma Kitchen</p>
                     <p class="fs-6">Jl. Centralpark No. 10 Yogyakarta</p>
                     {{-- laporan penjualan bulanan under line --}}
-                    <p class="fs-5 fw-bold h4 mt-2 mb-1"><span style="border-bottom: 2px solid black;">Laporan Stok Bahan Baku</span></p>
+                    <p class="fs-5 fw-bold h4 mt-2 mb-1"><span style="border-bottom: 2px solid black;">Laporan Stok Bahan
+                            Baku</span></p>
                     {{-- tanggal cetak --}}
-                    <p class="fs-6">Tanggal Cetak : {{Date('d F Y')}}</p>
+                    <p class="fs-6">Tanggal Cetak : {{ Date('d F Y') }}</p>
                     {{-- table isinya produk, kuantitas, harga, jumlah uang --}}
                     <table class="table table-bordered table-hover table-striped">
                         <thead>

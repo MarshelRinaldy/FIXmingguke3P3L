@@ -229,11 +229,19 @@
                         <span>Laporan</span>
                     </a>
                     <ul id="laporan" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+
                         <li class="sidebar-item">
-                            <a href="{{ route('mo.laporan.penjualan') }}" class="sidebar-link">Penjualan Bulanan</a>
+                            <a href="{{ route('laporan.pemasukan') }}" class="sidebar-link">Laporan Pemasukan</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{{ route('mo.laporan.stok_bb') }}" class="sidebar-link">Stok Bahan Baku</a>
+                            <a href="{{ route('laporan.pengeluaran') }}" class="sidebar-link">Laporan
+                                Pengeluaran</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{{ route('laporan.penjualan') }}" class="sidebar-link">Penjualan Bulanan</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{{ route('laporan.stok_bb') }}" class="sidebar-link">Stok Bahan Baku</a>
                         </li>
                         <li class="sidebar-item">
                             <a href="{{ route('show_laporan_penjualan_keseluruhan') }}" class="sidebar-link">

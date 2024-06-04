@@ -261,11 +261,11 @@
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#transaksi" aria-expanded="false" aria-controls="transaksi">
+                        data-bs-target="#presensi-rekap" aria-expanded="false" aria-controls="transaksi">
                         <i class="lni lni-agenda"></i>
                         <span>Presensi</span>
                     </a>
-                    <ul id="transaksi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <ul id="presensi-rekap" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
                             <a href="{{ route('mo.presensi') }}" class="sidebar-link">Presensi & Gaji Pegawai</a>
                         </li>
@@ -283,10 +283,10 @@
                     </a>
                     <ul id="laporan" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="{{ route('mo.laporan.pemasukan') }}" class="sidebar-link">Laporan Pemasukan</a>
+                            <a href="{{ route('laporan.pemasukan') }}" class="sidebar-link">Laporan Pemasukan</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{{ route('mo.laporan.pengeluaran') }}" class="sidebar-link">Laporan
+                            <a href="{{ route('laporan.pengeluaran') }}" class="sidebar-link">Laporan
                                 Pengeluaran</a>
                         </li>
 
@@ -304,21 +304,21 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{{ route('mo.laporan.penjualan') }}" class="sidebar-link">Penjualan Bulanan</a>
+                            <a href="{{ route('laporan.penjualan') }}" class="sidebar-link">Penjualan Bulanan</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{{ route('mo.laporan.stok_bb') }}" class="sidebar-link">Stok Bahan Baku</a>
+                            <a href="{{ route('laporan.stok_bb') }}" class="sidebar-link">Stok Bahan Baku</a>
                         </li>
 
                     </ul>
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#transaksi" aria-expanded="false" aria-controls="transaksi">
+                        data-bs-target="#penitip" aria-expanded="false" aria-controls="transaksi">
                         <i class="lni lni-agenda"></i>
                         <span>Penitip</span>
                     </a>
-                    <ul id="transaksi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <ul id="penitip" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
                             <a href="{{ route('penitip.index') }}" class="sidebar-link">Data Penitip</a>
                         </li>

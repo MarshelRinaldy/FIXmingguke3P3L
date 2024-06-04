@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\BahanBakuController;
 use App\Http\Controllers\admin\SaldoController as AdminSaldoController;
 use App\Http\Controllers\customer\SaldoController as CustomerSaldoController;
@@ -82,9 +81,7 @@ Route::delete('/pengeluaranLain/delete_PencatatanPengeluaranLain/{PencatatanPeng
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-
 Route::get('/dashboardCustomer', [DashboardCustomerController::class, 'index'])->name('dashboardCustomer.index');
-
 
 Route::get('/register/view', function () {
     return view('customer.register');
@@ -167,10 +164,7 @@ Route::patch('/pesanan_selesai/{id}', [CustomerController::class, 'pesanan_seles
 Route::patch('/pesanan_dibatalkan/{id}', [CustomerController::class, 'pesanan_dibatalkan'])->name('pesanan_dibatalkan');
 
 
-//INI UNTUK LAPORAN OWNER DAN MO (MACE)
-Route::get('/show_laporan_penjualan_keseluruhan', [OwnerMoLaporanController::class, 'show_laporan_penjualan_keseluruhan'])->name('show_laporan_penjualan_keseluruhan');
-Route::get('/chart-penjualan-bulanan', [OwnerMoLaporanController::class, 'show_chart_penjualan_bulanan'])->name('chart_penjualan_bulanan');
-Route::get('/show_laporan_penggunaan_bahanbaku', [OwnerMoLaporanController::class, 'show_laporan_penggunaan_bahanbaku'])->name('show_laporan_penggunaan_bahanbaku');
+
 
 
 //================================= CUSTOMER =================================
@@ -278,12 +272,20 @@ Route::middleware(['auth', CheckRole::class . ':mo'])->group(function () {
         // show_konfirmasi
         Route::get('pemrosesan/pesanan', [MoTransaksiPOController::class, 'pesanan'])->name('pemrosesanpesanan');
         Route::put('pemrosesan/pesanan/accept', [MoTransaksiPOController::class, 'pesanan_accept'])->name('pemrosesanpesanan.accept');
-        Route::get('laporan/penjualan', [LaporanController::class, 'penjualan'])->name('laporan.penjualan');
-        Route::get('laporan/stok_bb', [LaporanController::class, 'stok_bb'])->name('laporan.stok_bb');
+       
     });
 });
 
-
+//INI UNTUK LAPORAN
+Route::get('laporan/penjualan', [LaporanController::class, 'penjualan'])->name('laporan.penjualan');
+Route::get('laporan/stok_bb', [LaporanController::class, 'stok_bb'])->name('laporan.stok_bb');
+Route::get('/laporan/pemasukan', [LaporanController::class, 'pemasukan'])->name('laporan.pemasukan');
+Route::get('/laporan/pengeluaran', [LaporanController::class, 'pengeluaran'])->name('laporan.pengeluaran');
+Route::get('/laporan/pemasukan', [LaporanController::class, 'pemasukan'])->name('laporan.pemasukan');
+Route::get('/laporan/pengeluaran', [LaporanController::class, 'pengeluaran'])->name('laporan.pengeluaran');
+Route::get('/show_laporan_penjualan_keseluruhan', [OwnerMoLaporanController::class, 'show_laporan_penjualan_keseluruhan'])->name('show_laporan_penjualan_keseluruhan');
+Route::get('/chart-penjualan-bulanan', [OwnerMoLaporanController::class, 'show_chart_penjualan_bulanan'])->name('chart_penjualan_bulanan');
+Route::get('/show_laporan_penggunaan_bahanbaku', [OwnerMoLaporanController::class, 'show_laporan_penggunaan_bahanbaku'])->name('show_laporan_penggunaan_bahanbaku');
 
 //INI UNTUK MO
 Route::middleware(['auth', CheckRole::class . ':mo'])->group(function () {
@@ -294,8 +296,7 @@ Route::middleware(['auth', CheckRole::class . ':mo'])->group(function () {
         Route::get('/presensi', [MoPresensiController::class, 'index'])->name('mo.presensi');
         Route::get('/presensi/rekap', [MoPresensiController::class, 'rekap'])->name('mo.presensi.rekap');
         Route::get('/presensi/detail/{id}', [MoPresensiController::class, 'detail'])->name('mo.presensi.detail');
-        Route::get('/laporan/pemasukan', [LaporanController::class, 'pemasukan'])->name('mo.laporan.pemasukan');
-        Route::get('/laporan/pengeluaran', [LaporanController::class, 'pengeluaran'])->name('mo.laporan.pengeluaran');
+        
     });
 
     //UNTUK PROFIL MO
@@ -311,9 +312,12 @@ Route::middleware(['auth', CheckRole::class . ':mo'])->group(function () {
         Route::delete('/bahanbaku/{bahanbaku}/', 'destroy')->name('bahanbaku.destroy');
         Route::get('/bahanbaku/search', 'search')->name('bahanbaku.search');
 
-        Route::get('/mo/show_konfirmasi_pesanan', [MoTransaksiController::class, 'show_konfirmasi_pesanan'])->name('mo.show_konfirmasi_pesanan');;
-        Route::get('/mo/konfirmasi_pesanan/accept/{id}', [MoTransaksiController::class, 'konfirmasi_pesanan_accept'])->name('mo.konfirmasi_pesanan.accept');;
-        Route::get('/mo/konfirmasi_pesanan/reject/{id}', [MoTransaksiController::class, 'konfirmasi_pesanan_reject'])->name('mo.konfirmasi_pesanan.reject');;
+        Route::get('/mo/show_konfirmasi_pesanan', [MoTransaksiController::class, 'show_konfirmasi_pesanan'])->name('mo.show_konfirmasi_pesanan');
+        ;
+        Route::get('/mo/konfirmasi_pesanan/accept/{id}', [MoTransaksiController::class, 'konfirmasi_pesanan_accept'])->name('mo.konfirmasi_pesanan.accept');
+        ;
+        Route::get('/mo/konfirmasi_pesanan/reject/{id}', [MoTransaksiController::class, 'konfirmasi_pesanan_reject'])->name('mo.konfirmasi_pesanan.reject');
+        ;
     });
 
 
@@ -352,8 +356,7 @@ Route::middleware(['auth', CheckRole::class . ':owner'])->group(function () {
         Route::get('/presensi', [OwnerPresensiController::class, 'index'])->name('owner.presensi');
         Route::get('/presensi/rekap', [OwnerPresensiController::class, 'rekap'])->name('owner.presensi.rekap');
         Route::get('/presensi/detail/{id}', [OwnerPresensiController::class, 'detail'])->name('owner.presensi.detail');
-        Route::get('/laporan/pemasukan', [OwnerLaporanController::class, 'pemasukan'])->name('owner.laporan.pemasukan');
-        Route::get('/laporan/pengeluaran', [OwnerLaporanController::class, 'pengeluaran'])->name('owner.laporan.pengeluaran');
+       
     });
 
     //UNTUK PROFIL OWNER
@@ -397,15 +400,15 @@ Route::middleware(['auth', CheckRole::class . ':customer'])->group(function () {
 // =============================== CUSTOMER ===============================
 
 // =============================== MO ===============================
-Route::middleware(['auth', CheckRole::class . ':mo'])->group(function () {
-    Route::group(['prefix' => 'mo', 'as' => 'mo.'], function () {
-        // show_konfirmasi
-        Route::get('pesanan', [MoTransaksiController::class, 'pesanan'])->name('pesanan');
-        Route::put('pesanan/accept', [MoTransaksiController::class, 'pesanan_accept'])->name('pesanan.accept');
-        Route::get('laporan/penjualan', [LaporanController::class, 'penjualan'])->name('laporan.penjualan');
-        Route::get('laporan/stok_bb', [LaporanController::class, 'stok_bb'])->name('laporan.stok_bb');
-    });
-});
+// Route::middleware(['auth', CheckRole::class . ':mo'])->group(function () {
+//     Route::group(['prefix' => 'mo', 'as' => 'mo.'], function () {
+//         // show_konfirmasi
+//         Route::get('pesanan', [MoTransaksiController::class, 'pesanan'])->name('pesanan');
+//         Route::put('pesanan/accept', [MoTransaksiController::class, 'pesanan_accept'])->name('pesanan.accept');
+//         Route::get('laporan/penjualan', [LaporanController::class, 'penjualan'])->name('laporan.penjualan');
+//         Route::get('laporan/stok_bb', [LaporanController::class, 'stok_bb'])->name('laporan.stok_bb');
+//     });
+// });
 
 
 // Route::middleware(['auth', CheckRole::class . ':owner'])->group(function () {
