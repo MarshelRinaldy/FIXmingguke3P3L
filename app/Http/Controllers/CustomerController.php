@@ -106,16 +106,11 @@ class CustomerController extends Controller
 
     public function show_payment_pesanan_list()
     {
-        // Mendapatkan user yang sedang login
         $user = Auth::user();
-
-        // Mengambil transaksi sesuai dengan user yang sedang login
         $transaksis = Transaksi::where('user_id', $user->id)
-            ->with('detailTransaksis.produk') // Mengambil detail transaksi dan produk terkait
-            // ->where('status_transaksi', 'Dibatalkan')  // tambahan baru untuk di batalkan
+            ->with('detailTransaksis.produk') 
             ->get();
 
-        // Mengirim data ke view
         return view('customer.daftarPesananUntukPembayaran', compact('transaksis'));
     }
 

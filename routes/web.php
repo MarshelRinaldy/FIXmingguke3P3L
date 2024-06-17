@@ -272,7 +272,6 @@ Route::middleware(['auth', CheckRole::class . ':mo'])->group(function () {
         // show_konfirmasi
         Route::get('pemrosesan/pesanan', [MoTransaksiPOController::class, 'pesanan'])->name('pemrosesanpesanan');
         Route::put('pemrosesan/pesanan/accept', [MoTransaksiPOController::class, 'pesanan_accept'])->name('pemrosesanpesanan.accept');
-       
     });
 });
 
@@ -296,7 +295,6 @@ Route::middleware(['auth', CheckRole::class . ':mo'])->group(function () {
         Route::get('/presensi', [MoPresensiController::class, 'index'])->name('mo.presensi');
         Route::get('/presensi/rekap', [MoPresensiController::class, 'rekap'])->name('mo.presensi.rekap');
         Route::get('/presensi/detail/{id}', [MoPresensiController::class, 'detail'])->name('mo.presensi.detail');
-        
     });
 
     //UNTUK PROFIL MO
@@ -312,12 +310,9 @@ Route::middleware(['auth', CheckRole::class . ':mo'])->group(function () {
         Route::delete('/bahanbaku/{bahanbaku}/', 'destroy')->name('bahanbaku.destroy');
         Route::get('/bahanbaku/search', 'search')->name('bahanbaku.search');
 
-        Route::get('/mo/show_konfirmasi_pesanan', [MoTransaksiController::class, 'show_konfirmasi_pesanan'])->name('mo.show_konfirmasi_pesanan');
-        ;
-        Route::get('/mo/konfirmasi_pesanan/accept/{id}', [MoTransaksiController::class, 'konfirmasi_pesanan_accept'])->name('mo.konfirmasi_pesanan.accept');
-        ;
-        Route::get('/mo/konfirmasi_pesanan/reject/{id}', [MoTransaksiController::class, 'konfirmasi_pesanan_reject'])->name('mo.konfirmasi_pesanan.reject');
-        ;
+        Route::get('/mo/show_konfirmasi_pesanan', [MoTransaksiController::class, 'show_konfirmasi_pesanan'])->name('mo.show_konfirmasi_pesanan');;
+        Route::get('/mo/konfirmasi_pesanan/accept/{id}', [MoTransaksiController::class, 'konfirmasi_pesanan_accept'])->name('mo.konfirmasi_pesanan.accept');;
+        Route::get('/mo/konfirmasi_pesanan/reject/{id}', [MoTransaksiController::class, 'konfirmasi_pesanan_reject'])->name('mo.konfirmasi_pesanan.reject');;
     });
 
 
@@ -356,7 +351,6 @@ Route::middleware(['auth', CheckRole::class . ':owner'])->group(function () {
         Route::get('/presensi', [OwnerPresensiController::class, 'index'])->name('owner.presensi');
         Route::get('/presensi/rekap', [OwnerPresensiController::class, 'rekap'])->name('owner.presensi.rekap');
         Route::get('/presensi/detail/{id}', [OwnerPresensiController::class, 'detail'])->name('owner.presensi.detail');
-       
     });
 
     //UNTUK PROFIL OWNER

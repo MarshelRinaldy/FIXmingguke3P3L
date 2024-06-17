@@ -17,14 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('produk_id'); 
             $table->integer('jumlah_produk');
             $table->timestamps();
-
-            // Definisi foreign key untuk transaksi
             $table->foreign('transaksi_id')->references('id')->on('transaksis')->onDelete('cascade');
-
-            // Definisi foreign key untuk produk
             $table->foreign('produk_id')->references('id')->on('dukpro')->onDelete('cascade');
-            
-        
         });
     }
 

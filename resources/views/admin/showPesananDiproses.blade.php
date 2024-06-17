@@ -55,7 +55,7 @@
 
                     <hr>
                     <p class="total-price">Biaya Ongkir: Rp. {{ $transaksi->biaya_ongkir }},00</p>
-                    <p class="total-price">Total Harga: Rp. {{ $transaksi->total_harga + $transaksi->biaya_ongkir }},00</p>
+                    <p class="total-price">Total Harga: Rp. {{ $transaksi->total_harga }},00</p>
                     {{-- Centered button --}}
                     <div class="button-container">
                         <button type="button" class="btn btn-primary ready-to-ship-btn"

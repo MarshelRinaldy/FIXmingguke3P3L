@@ -19,80 +19,82 @@ use Illuminate\Support\Str;
 class CartController extends Controller
 {
     public function addToCart(Request $request)
-{
-    $productId = $request->input('product_id');
-    $hamperId = $request->input('hamper_id');
-    $cart = Session::get('cart', []);
+    {
+        $productId = $request->input('product_id');
+        $hamperId = $request->input('hamper_id');
+        $cart = Session::get('cart', []);
 
-    if ($productId) {
-        $product = Dukpro::find($productId);
+        if ($productId) {
+            $product = Dukpro::find($productId);
 
-        if (!$product) {
-            return redirect()->back()->with('error', 'Product Tidak Ada.');
+            if (!$product) {
+                return redirect()->back()->with('error', 'Product Tidak Ada.');
+            }
+
+            $productStatus = $product->status;
+
+            // Check for conflicting status
+            $preorderInCart = isset($cart['products']) && collect($cart['products'])->contains('status', 'Preorder');
+            $availableInCart = isset($cart['products']) && collect($cart['products'])->contains('status', 'Available');
+            $hamperInCart = isset($cart['hampers']) && count($cart['hampers']) > 0;
+
+            if (
+                ($productStatus == 'Preorder' && ($availableInCart || $hamperInCart)) ||
+                ($productStatus == 'Available' && $preorderInCart)
+            ) {
+                return redirect()->back()->with('error', 'Tidak dapat mencampur produk Preorder dengan produk Tersedia atau hampers');
+            }
+
+            if (isset($cart['products'][$productId])) {
+                $cart['products'][$productId]['quantity']++;
+            } else {
+                $cart['products'][$productId] = [
+                    "id" => $product->id,
+                    "nama" => $product->nama,
+                    "quantity" => 1,
+                    "harga" => $product->harga,
+                    "image" => $product->image,
+                    "status" => $product->status
+                ];
+            }
+
+            Session::put('cart', $cart);
+
+            return redirect()->back()->with('success', 'Sukses Memasukan Produk Ke Dalam Cart!');
         }
 
-        $productStatus = $product->status;
+        if ($hamperId) {
+            $hamper = Hampers::find($hamperId);
 
-        // Check for conflicting status
-        $preorderInCart = isset($cart['products']) && collect($cart['products'])->contains('status', 'Preorder');
-        $availableInCart = isset($cart['products']) && collect($cart['products'])->contains('status', 'Available');
-        $hamperInCart = isset($cart['hampers']) && count($cart['hampers']) > 0;
+            if (!$hamper) {
+                return redirect()->back()->with('error', 'Hamper Tidak Tersedia.');
+            }
 
-        if (($productStatus == 'Preorder' && ($availableInCart || $hamperInCart)) ||
-            ($productStatus == 'Available' && $preorderInCart)) {
-            return redirect()->back()->with('error', 'Tidak dapat mencampur produk Preorder dengan produk Tersedia atau hampers');
+            $preorderInCart = isset($cart['products']) && collect($cart['products'])->contains('status', 'Preorder');
+
+            if ($preorderInCart) {
+                return redirect()->back()->with('error', 'Tidak dapat menambahkan hampers apabila sudah ada produk Preorder di Cart.');
+            }
+
+            if (isset($cart['hampers'][$hamperId])) {
+                $cart['hampers'][$hamperId]['quantity']++;
+            } else {
+                $cart['hampers'][$hamperId] = [
+                    "id" => $hamper->id,
+                    "nama" => $hamper->nama,
+                    "quantity" => 1,
+                    "harga" => $hamper->harga,
+                    "image" => $hamper->image
+                ];
+            }
+
+            Session::put('cart', $cart);
+
+            return redirect()->back()->with('success', 'Sukses Menambahkan Hampers Ke Dalam Cart!');
         }
 
-        if (isset($cart['products'][$productId])) {
-            $cart['products'][$productId]['quantity']++;
-        } else {
-            $cart['products'][$productId] = [
-                "id" => $product->id,
-                "nama" => $product->nama,
-                "quantity" => 1,
-                "harga" => $product->harga,
-                "image" => $product->image,
-                "status" => $product->status
-            ];
-        }
-
-        Session::put('cart', $cart);
-
-        return redirect()->back()->with('success', 'Sukses Memasukan Produk Ke Dalam Cart!');
+        return redirect()->back()->with('error', 'No product or hamper selected.');
     }
-
-    if ($hamperId) {
-        $hamper = Hampers::find($hamperId);
-
-        if (!$hamper) {
-            return redirect()->back()->with('error', 'Hamper Tidak Tersedia.');
-        }
-
-        $preorderInCart = isset($cart['products']) && collect($cart['products'])->contains('status', 'Preorder');
-
-        if ($preorderInCart) {
-            return redirect()->back()->with('error', 'Tidak dapat menambahkan hampers apabila sudah ada produk Preorder di Cart.');
-        }
-
-        if (isset($cart['hampers'][$hamperId])) {
-            $cart['hampers'][$hamperId]['quantity']++;
-        } else {
-            $cart['hampers'][$hamperId] = [
-                "id" => $hamper->id,
-                "nama" => $hamper->nama,
-                "quantity" => 1,
-                "harga" => $hamper->harga,
-                "image" => $hamper->image
-            ];
-        }
-
-        Session::put('cart', $cart);
-
-        return redirect()->back()->with('success', 'Sukses Menambahkan Hampers Ke Dalam Cart!');
-    }
-
-    return redirect()->back()->with('error', 'No product or hamper selected.');
-}
 
 
     public function showCart()
@@ -186,7 +188,7 @@ class CartController extends Controller
             session(['total_discount' => $totalDiscount]);
             session(['total_price_after_discount' => $totalPriceAfterDiscount]);
 
-            if($request->input('jenis')=='remove'){
+            if ($request->input('jenis') == 'remove') {
                 session(['claimed_promo_ids' => []]);
                 session(['total_discount' => 0]);
                 session(['total_price_after_discount' => 0]);
@@ -209,12 +211,12 @@ class CartController extends Controller
         $claimedPromoIds = session('claimed_promo_ids', []);
         $totalDiscount = session('total_discount', 0);
 
-        $totalPriceAfterDiscount = $totalPrice - $totalDiscount - ($pointUser*100);
+        $totalPriceAfterDiscount = $totalPrice - $totalDiscount - ($pointUser * 100);
 
         // Store the updated total price after discount in session
         session(['total_price_after_discount' => $totalPriceAfterDiscount]);
         session(['status_claim' => 'true']);
-        if($request->input('jenis')=='remove'){
+        if ($request->input('jenis') == 'remove') {
             session(['claimed_promo_ids' => []]);
             session(['total_discount' => 0]);
             session(['total_price_after_discount' => 0]);
@@ -225,74 +227,73 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Points applied successfully!');
     }
 
-public function cancelPointClaim(Request $request)
-{
-    session(['claimed_promo_ids' => []]);
-    session(['total_discount' => 0]);
-    session(['total_price_after_discount' => 0]);
+    public function cancelPointClaim(Request $request)
+    {
+        session(['claimed_promo_ids' => []]);
+        session(['total_discount' => 0]);
+        session(['total_price_after_discount' => 0]);
 
-    return redirect()->back();
-}
+        return redirect()->back();
+    }
 
-public function checkout(Request $request)
-{
-    // Retrieve the cart from session
-    $cart = session('cart', []);
+    public function checkout(Request $request)
+    {
+        // Retrieve the cart from session
+        $cart = session('cart', []);
 
-    // Retrieve the products array from cart
-    $products = $cart['products'] ?? [];
+        // Retrieve the products array from cart
+        $products = $cart['products'] ?? [];
 
-    // Calculate the total price
-    $totalPrice = array_reduce($products, function ($carry, $item) {
-        if (isset($item['harga']) && isset($item['quantity'])) {
-            return $carry + $item['harga'] * $item['quantity'];
-        } else {
-            throw new \Exception('Invalid item structure in cart.');
-        }
-    }, 0);
-
-    // Retrieve the total price after discount from session, default to totalPrice if not set
-    $totalPriceAfterDiscount = session('total_price_after_discount', $totalPrice);
-
-    // Retrieve applied promos and their discounts
-    $appliedPromos = session('total_discount', []);
-    $transactionId = rand(1000, 9999);
-
-    // Create a new order
-    $order = new Order();
-    $order->total_price = $totalPriceAfterDiscount;
-    $order->transaksi_id = $transactionId;
-    $order->id_transaksi = $transactionId;
-    $order->save();
-
-    // Create order items and reduce product stock
-    DB::transaction(function () use ($products, $order) {
-        foreach ($products as $id => $details) {
-            $product = Dukpro::find($id);
-
-            // Ensure there is enough stock
-            if ($product->stok >= $details['quantity']) {
-                // Create order item
-                $orderItem = new OrderItem();
-                $orderItem->order_id = $order->id;
-                $orderItem->dukpro_id = $id;
-                $orderItem->quantity = $details['quantity'];
-                $orderItem->price = $details['harga'];
-                $orderItem->save();
-
-                // Reduce stock
-                $product->stok -= $details['quantity'];
-                $product->save();
+        // Calculate the total price
+        $totalPrice = array_reduce($products, function ($carry, $item) {
+            if (isset($item['harga']) && isset($item['quantity'])) {
+                return $carry + $item['harga'] * $item['quantity'];
             } else {
-                throw new \Exception('Not enough stock for product: ' . $product->nama);
+                throw new \Exception('Invalid item structure in cart.');
             }
-        }
-    });
+        }, 0);
 
-    // Clear the cart and other session data
-    session()->forget(['cart', 'claimed_promo_ids', 'total_price_after_discount']);
+        // Retrieve the total price after discount from session, default to totalPrice if not set
+        $totalPriceAfterDiscount = session('total_price_after_discount', $totalPrice);
 
-    return view('receipt', ['order' => $order, 'appliedPromos' => $appliedPromos]);
-}
+        // Retrieve applied promos and their discounts
+        $appliedPromos = session('total_discount', []);
+        $transactionId = rand(1000, 9999);
 
+        // Create a new order
+        $order = new Order();
+        $order->total_price = $totalPriceAfterDiscount;
+        $order->transaksi_id = $transactionId;
+        $order->id_transaksi = $transactionId;
+        $order->save();
+
+        // Create order items and reduce product stock
+        DB::transaction(function () use ($products, $order) {
+            foreach ($products as $id => $details) {
+                $product = Dukpro::find($id);
+
+                // Ensure there is enough stock
+                if ($product->stok >= $details['quantity']) {
+                    // Create order item
+                    $orderItem = new OrderItem();
+                    $orderItem->order_id = $order->id;
+                    $orderItem->dukpro_id = $id;
+                    $orderItem->quantity = $details['quantity'];
+                    $orderItem->price = $details['harga'];
+                    $orderItem->save();
+
+                    // Reduce stock
+                    $product->stok -= $details['quantity'];
+                    $product->save();
+                } else {
+                    throw new \Exception('Not enough stock for product: ' . $product->nama);
+                }
+            }
+        });
+
+        // Clear the cart and other session data
+        session()->forget(['cart', 'claimed_promo_ids', 'total_price_after_discount']);
+
+        return view('receipt', ['order' => $order, 'appliedPromos' => $appliedPromos]);
+    }
 }

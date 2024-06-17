@@ -282,6 +282,7 @@
                                                     @endif
 
                                                     <p>Quantity : {{ $detail->jumlah_produk }}</p>
+                                                    <p>Status Pesanan : {{ $detail->produk->status }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -368,6 +369,7 @@
                                                     @endif
 
                                                     <p>Quantity : {{ $detail->jumlah_produk }}</p>
+                                                    <p>Status Pesanan : {{ $detail->produk->status }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -397,7 +399,7 @@
             @endforeach
         </div>
 
-        <div id="konfirmasi-pembayaran" class="tab-content">
+        <div id="pembuatan-po" class="tab-content">
             <h1 class="card-title text-center mb-5 mt-2">Menunggu Pemrosesan Pre Order</h1>
             @foreach ($transaksis as $transaksi)
                 @if ($transaksi->status_transaksi == 'menunggu pemrosesan pesanan')
@@ -436,6 +438,7 @@
                                                     @endif
 
                                                     <p>Quantity : {{ $detail->jumlah_produk }}</p>
+                                                    <p>Status Pesanan : {{ $detail->produk->status }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -504,6 +507,7 @@
                                                     @endif
 
                                                     <p>Quantity : {{ $detail->jumlah_produk }}</p>
+                                                    <p>Status Pesanan : {{ $detail->produk->status }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -601,6 +605,7 @@
                                                     @endif
 
                                                     <p>Quantity : {{ $detail->jumlah_produk }}</p>
+                                                    <p>Status Pesanan : {{ $detail->produk->status }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -670,6 +675,7 @@
                                                     @endif
 
                                                     <p>Quantity : {{ $detail->jumlah_produk }}</p>
+                                                    <p>Status Pesanan : {{ $detail->produk->status }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -821,12 +827,14 @@
                                                     @endif
 
                                                     @if ($detail->is_hampers)
-                                                        <h5>{{ truncateDescription($detail->hampers->deskripsi) }}</h5>
+                                                        <h5>{{ truncateDescription($detail->hampers->deskripsi) }}
+                                                        </h5>
                                                     @else
                                                         <h5>{{ truncateDescription($detail->produk->deskripsi) }}</h5>
                                                     @endif
 
                                                     <p>Quantity : {{ $detail->jumlah_produk }}</p>
+                                                    <p>Status Pesanan : {{ $detail->produk->status }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -897,6 +905,7 @@
                                                     @endif
 
                                                     <p>Quantity : {{ $detail->jumlah_produk }}</p>
+                                                    <p>Status Pesanan : {{ $detail->produk->status }}</p>
                                                 </div>
                                             </div>
                                         </div>

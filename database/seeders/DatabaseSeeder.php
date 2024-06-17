@@ -459,46 +459,46 @@ class DatabaseSeeder extends Seeder
         //     'gender' => 'male',
         // ]);
 
-        // $produks = [
-        //     [
-        //         'nama' => 'Produk 1',
-        //         'harga' => 20000,
-        //         'stok' => 50,
-        //         'status' => 'aktif',
-        //         'keterangan' => 'Deskripsi produk 1',
-        //         'tanggal_kadaluarsa' => '2024-12-31',
-        //         'deskripsi' => 'Deskripsi produk 1',
-        //         'image' => 'gambar_produk_1.jpg',
-        //         'kategori' => 'Kategori 1',
-        //     ],
-        //     [
-        //         'nama' => 'Produk 2',
-        //         'harga' => 25000,
-        //         'stok' => 30,
-        //         'status' => 'aktif',
-        //         'keterangan' => 'Deskripsi produk 2',
-        //         'tanggal_kadaluarsa' => '2024-12-31',
-        //         'deskripsi' => 'Deskripsi produk 2',
-        //         'image' => 'gambar_produk_2.jpg',
-        //         'kategori' => 'Kategori 2',
-        //     ],
-        //     [
-        //         'nama' => 'Produk 3',
-        //         'harga' => 25000,
-        //         'stok' => 30,
-        //         'status' => 'aktif',
-        //         'keterangan' => 'Deskripsi produk 3',
-        //         'tanggal_kadaluarsa' => '2024-12-31',
-        //         'deskripsi' => 'Deskripsi produk 3',
-        //         'image' => 'gambar_produk_3.jpg',
-        //         'kategori' => 'Kategori 3',
-        //     ],
-        // ];
+        $produks = [
+            [
+                'nama' => 'Produk 1',
+                'harga' => 20000,
+                'stok' => 50,
+                'status' => 'aktif',
+                'keterangan' => 'Deskripsi produk 1',
+                'tanggal_kadaluarsa' => '2024-12-31',
+                'deskripsi' => 'Deskripsi produk 1',
+                'image' => 'gambar_produk_1.jpg',
+                'kategori' => 'Kategori 1',
+            ],
+            [
+                'nama' => 'Produk 2',
+                'harga' => 25000,
+                'stok' => 30,
+                'status' => 'aktif',
+                'keterangan' => 'Deskripsi produk 2',
+                'tanggal_kadaluarsa' => '2024-12-31',
+                'deskripsi' => 'Deskripsi produk 2',
+                'image' => 'gambar_produk_2.jpg',
+                'kategori' => 'Kategori 2',
+            ],
+            [
+                'nama' => 'Produk 3',
+                'harga' => 25000,
+                'stok' => 30,
+                'status' => 'aktif',
+                'keterangan' => 'Deskripsi produk 3',
+                'tanggal_kadaluarsa' => '2024-12-31',
+                'deskripsi' => 'Deskripsi produk 3',
+                'image' => 'gambar_produk_3.jpg',
+                'kategori' => 'Kategori 3',
+            ],
+        ];
 
-        // // Loop melalui array produk dan masukkan ke database
-        // foreach ($produks as $produk) {
-        //     Dukpro::create($produk);
-        // }
+        // Loop melalui array produk dan masukkan ke database
+        foreach ($produks as $produk) {
+            Dukpro::create($produk);
+        }
 
         // DB::table('transaksis')->insert([
         //     [

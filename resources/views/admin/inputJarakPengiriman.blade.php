@@ -140,9 +140,10 @@
                     <th>ACTION</th>
                 </tr>
 
-                @foreach ($transaksis as $transaksi)
+                @foreach ($transaksis as $index => $transaksi)
                     <tr style="height: 60px;">
-                        <td>1</td>
+
+                        <td>{{ $index + 1 }}</td>
                         <td>{{ $transaksi->user->name }}</td>
                         <td>{{ $transaksi->no_transaksi }}</td>
                         <td>{{ $transaksi->biaya_ongkir }}</td>

@@ -11,12 +11,6 @@ class PemasukanPerusahaanController extends Controller
 {
     public function store_pemasukan_perusahaan(Request $request)
 {
-    // Validate the request data
-    // $request->validate([
-    //     'transaksi_id' => 'required|exists:transaksis,id',
-    //     'jumlah_income' => 'required|numeric',
-    //     'deskripsi' => 'nullable|string',
-    // ]);
 
     // Find the transaction
     $transaksi = Transaksi::find($request->input('transaksi_id'));
@@ -38,7 +32,6 @@ class PemasukanPerusahaanController extends Controller
     'tip_lebihan' => $tip_lebihan,
     'deskripsi' => $request->input('deskripsi'),
 ]);
-
 
     // Update transaction status
     $transaksi->update(['status_transaksi' => 'menunggu konfirmasi mo', 'status_pembayaran' => 'sudah bayar']);

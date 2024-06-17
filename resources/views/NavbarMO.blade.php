@@ -372,12 +372,12 @@
                     </a>
                 </li> --}}
 
-                <li class="sidebar-item">
+                {{-- <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="lni lni-popup"></i>
                         <span>Data Penitip</span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="sidebar-item">
                     <a href="{{ route('bahanbaku.index') }}" class="sidebar-link">

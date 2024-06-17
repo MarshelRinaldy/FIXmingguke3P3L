@@ -266,7 +266,7 @@
                         <span>Gaji dan Bonus</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                {{-- <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                         data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
                         <i class="lni lni-protection"></i>
@@ -315,7 +315,7 @@
                         <i class="lni lni-cog"></i>
                         <span>Setting</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
             <div class="sidebar-footer">
                 <a href="{{ route('logout') }}" class="sidebar-link">

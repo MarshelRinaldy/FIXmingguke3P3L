@@ -54,7 +54,6 @@ class TransaksiController extends Controller
         } else {
             $biaya_ongkir = 25000;
         }
-
        
         $transaksi->jarak_delivery = $jarak;
         $transaksi->biaya_ongkir = $biaya_ongkir;
@@ -81,14 +80,12 @@ class TransaksiController extends Controller
     }
 
     public function show_pesanan_diproses(){
-         $transaksis = Transaksi::where('status_transaksi', 'sedang dikemas')->get();
-    return view('admin.showPesananDiproses', compact('transaksis'));
+        $transaksis = Transaksi::where('status_transaksi', 'sedang dikemas')->get();
+        return view('admin.showPesananDiproses', compact('transaksis'));
     }
 
     public function show_pesanan_telat_bayar(){
-    
     $now = Carbon::now();
-    
     $transaksis = Transaksi::where('status_transaksi', 'menunggu pembayaran')
                             ->where('created_at', '<', $now->subDay())
                             ->get();
@@ -115,7 +112,7 @@ class TransaksiController extends Controller
             $hampers = $detail->hampers;
             $hampers->stok += $detail->jumlah_produk;
             $hampers->save();
-        }
+        } 
     }
 
    
